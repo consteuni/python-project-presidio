@@ -5,6 +5,7 @@ description = ""
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "it-core-news-sm",
     "presidio>=2.2.364",
     "presidio-analyzer[transformers]>=2.2.364",
     "presidio-anonymizer>=2.2.364",
@@ -31,3 +32,9 @@ line-ending = "auto"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+[tool.uv]
+link-mode = "copy"
+
+[tool.uv.sources]
+it-core-news-sm = { url = "https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.8.0/it_core_news_sm-3.8.0-py3-none-any.whl" }
