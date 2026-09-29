@@ -12,8 +12,8 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 ## Stato sintetico
 
 - Stato: completato.
-- Ultima attività completata: reso il testo di input configurabile tramite file JSON esterno.
-- Prossima attività: nessuna; input JSON e flusso end-to-end sono stati verificati.
+- Ultima attività completata: aggiunto chunking GLiNER con offset originali per testi lunghi.
+- Prossima attività: aggiungere recognizer dedicati per gli identificativi clinici non rilevati.
 - Blocco principale: nessuno.
 
 ## Architettura rilevante
@@ -37,6 +37,7 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 - [x] Corretto `model_name` da dizionario a stringa per la compatibilità con Presidio.
 - [x] Aggiunta lettura del campo `text` da JSON tramite argomento da riga di comando.
 - [x] Esteso GLiNER con le entità semantiche `ADDRESS` e `PROFESSION`.
+- [x] Divisi i testi lunghi in chunk sovrapposti e rimappati gli offset delle entità.
 
 ## Output JSON
 
@@ -48,7 +49,7 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 ## Prossimi passi
 
-1. Fornire un file JSON con campo `text` per eseguire una nuova analisi.
+1. Aggiungere recognizer regex per tessera sanitaria, polizza, protocollo e identificativo paziente.
 
 ## Comandi utili
 
@@ -69,11 +70,13 @@ uv run ruff format --check src/presidio-transformers.py
 - `uv run python src/presidio-transformers.py`: superato; rilevate entità, testo anonimizzato e JSON generato.
 - `python -m json.tool output/presidio-transformers_20260929T125543_845857Z.json`: superato.
 - `uv run python src/presidio-transformers.py input/example.json`: superato.
+- `uv run python src/presidio-transformers.py input/example3.json`: superato senza warning di troncamento GLiNER.
 
 ## Assunzioni da verificare
 
 - [ ] Dipendenze e modello GLiNER necessari disponibili nell'ambiente di esecuzione.
 - [x] Inferenza GLiNER e anonimizzazione funzionanti end-to-end.
+- [ ] Gli identificativi clinici presenti in testi lunghi sono tutti riconosciuti: servono recognizer dedicati.
 - L’esempio GLiNER è in italiano; l’esempio base resta in inglese.
 
 ## Devcontainer: installazione Codex

@@ -4,13 +4,15 @@ from presidio_analyzer.nlp_engine import NlpArtifacts
 
 
 class GLiNERRecognizer(EntityRecognizer):
-    """Custom Presidio recognizer using GLiNER for NER."""
+    """Custom Presidio recognizer using GLiNER for chunked NER."""
 
     def __init__(
         self,
         supported_entities: list[str] | None = None,
         model_name: str = "urchade/gliner_multi_pii-v1",
         threshold: float = 0.5,
+        max_chunk_chars: int = 1600,
+        overlap_chars: int = 150,
     ) -> None:
         super().__init__(
             supported_entities=supported_entities
@@ -20,6 +22,10 @@ class GLiNERRecognizer(EntityRecognizer):
         )
         self.model_name = model_name
         self.threshold = threshold
+        if max_chunk_chars <= overlap_chars:
+            raise ValueError("max_chunk_chars deve essere maggiore di overlap_chars")
+        self.max_chunk_chars = max_chunk_chars
+        self.overlap_chars = overlap_chars
         self._model: GLiNER | None = None
 
     @property
@@ -31,25 +37,47 @@ class GLiNERRecognizer(EntityRecognizer):
     def load(self) -> None:
         pass
 
+    def _chunks(self, text: str) -> list[tuple[str, int]]:
+        chunks = []
+        start = 0
+        while start < len(text):
+            end = min(start + self.max_chunk_chars, len(text))
+            if end < len(text):
+                boundary = text.rfind(" ", start, end)
+                if boundary > start:
+                    end = boundary
+            chunks.append((text[start:end], start))
+            if end == len(text):
+                break
+            start = end - self.overlap_chars
+            while start < len(text) and text[start].isspace():
+                start += 1
+        return chunks
+
     def analyze(
         self,
         text: str,
         entities: list[str],
         nlp_artifacts: NlpArtifacts | None = None,
     ) -> list[RecognizerResult]:
-        results = []
-        predictions = self.model.predict_entities(
-            text,
-            labels=entities,
-            threshold=self.threshold,
-        )
-        for pred in predictions:
-            results.append(
-                RecognizerResult(
+        results_by_span = {}
+        for chunk, offset in self._chunks(text):
+            predictions = self.model.predict_entities(
+                chunk,
+                labels=entities,
+                threshold=self.threshold,
+            )
+            for pred in predictions:
+                start = offset + pred["start"]
+                end = offset + pred["end"]
+                key = (pred["label"], start, end)
+                result = RecognizerResult(
                     entity_type=pred["label"],
-                    start=pred["start"],
-                    end=pred["end"],
+                    start=start,
+                    end=end,
                     score=pred["score"],
                 )
-            )
-        return results
+                previous = results_by_span.get(key)
+                if previous is None or result.score > previous.score:
+                    results_by_span[key] = result
+        return list(results_by_span.values())

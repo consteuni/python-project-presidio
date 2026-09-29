@@ -1,0 +1,191 @@
+{
+  "timestamp": "2026-09-29T14:16:30.206435+00:00",
+  "language": "it",
+  "models": {
+    "nlp": [
+      {
+        "lang_code": "it",
+        "model_name": "it_core_news_sm"
+      }
+    ],
+    "gliner": "urchade/gliner_multi_pii-v1"
+  },
+  "original_text": "Referto clinico completo del paziente Marco Rossi. Paziente di sesso maschile, nato il 15/03/1978 a Roma, codice fiscale RSSMRC78C15H501X, residente in Via delle Magnolie 25, 00142 Roma. Numero di cellulare 123-456-7890, email marco.rossi@example.com. Tessera sanitaria 8038001234567890. Identificativo paziente PAT-2026-000123. Medico di medicina generale: Dott.ssa Laura Bianchi. Contatto di emergenza: Anna Rossi, telefono 333-987-6543. Ricovero presso Policlinico Universitario di Roma in data 12/09/2026 per valutazione cardiometabolica. Anamnesi patologica remota: diabete mellito tipo 2 diagnosticato nel 2019, ipertensione arteriosa essenziale diagnosticata nel 2017, dislipidemia, steatosi epatica non alcolica, appendicectomia nel 2008. Allergie note: penicillina, amoxicillina e lattice. Terapia domiciliare: Metformina 1000 mg due volte al giorno, Ramipril 5 mg una volta al giorno, Atorvastatina 20 mg alla sera, Acido Acetilsalicilico 100 mg al giorno. Parametri vitali all'ingresso: pressione arteriosa 145/90 mmHg, frequenza cardiaca 82 bpm, saturazione di ossigeno 98%, temperatura corporea 36,7°C, peso 91 kg, altezza 178 cm, BMI 28,7. Esami ematochimici: glucosio 168 mg/dL, emoglobina glicata HbA1c 7,3%, colesterolo totale 238 mg/dL, LDL 156 mg/dL, HDL 48 mg/dL, trigliceridi 180 mg/dL, creatinina 0,98 mg/dL, azotemia 38 mg/dL, AST 42 U/L, ALT 56 U/L, gamma GT 71 U/L, emocromo nella norma. Esami strumentali: ECG con ritmo sinusale regolare a 81 bpm senza alterazioni ischemiche acute; ecocardiogramma con frazione di eiezione 58%, lieve ipertrofia ventricolare sinistra; radiografia del torace negativa per lesioni acute. Diagnosi principale: sindrome metabolica con diabete mellito tipo 2 non ottimamente controllato e ipertensione arteriosa in trattamento farmacologico. Diagnosi secondarie: obesità di grado I, dislipidemia mista, steatosi epatica. Familiarità positiva per malattie cardiovascolari: padre deceduto per infarto miocardico acuto a 67 anni, madre affetta da diabete mellito tipo 2. Abitudini di vita: ex fumatore, 15 pacchetti/anno, cessazione nel 2021; consumo occasionale di alcol; attività fisica saltuaria. Codice esenzione sanitaria 013. Numero polizza sanitaria PRIV-IT-2026-556781. Referto firmato digitalmente dal Dott. Paolo Verdi, matricola MED-45872, Unità Operativa di Cardiologia. Raccomandato follow-up clinico entro sei mesi con ripetizione di ECG, ecocardiogramma, profilo lipidico completo, funzionalità epatica e monitoraggio dell'emoglobina glicata. Data ultimo accesso al pronto soccorso: 23/04/2025 per episodio di dolore toracico non cardiaco. Consenso informato archiviato con protocollo CI-2026-998452.",
+  "analyzer_results": [
+    {
+      "entity_type": "EMAIL_ADDRESS",
+      "start": 227,
+      "end": 250,
+      "score": 1.0
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 38,
+      "end": 49,
+      "score": 0.9955627918243408
+    },
+    {
+      "entity_type": "IT_FISCAL_CODE",
+      "start": 121,
+      "end": 137,
+      "score": 0.9814562797546387
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 426,
+      "end": 438,
+      "score": 0.9794283509254456
+    },
+    {
+      "entity_type": "EMAIL",
+      "start": 227,
+      "end": 250,
+      "score": 0.9732609391212463
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 358,
+      "end": 380,
+      "score": 0.972082257270813
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 405,
+      "end": 415,
+      "score": 0.9613349437713623
+    },
+    {
+      "entity_type": "ADDRESS",
+      "start": 152,
+      "end": 185,
+      "score": 0.9537549614906311
+    },
+    {
+      "entity_type": "DATE_TIME",
+      "start": 498,
+      "end": 508,
+      "score": 0.9207507967948914
+    },
+    {
+      "entity_type": "ORGANIZATION",
+      "start": 456,
+      "end": 489,
+      "score": 0.8593224883079529
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 100,
+      "end": 104,
+      "score": 0.85
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 152,
+      "end": 170,
+      "score": 0.85
+    },
+    {
+      "entity_type": "ORGANIZATION",
+      "start": 227,
+      "end": 250,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 456,
+      "end": 481,
+      "score": 0.85
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 485,
+      "end": 489,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 543,
+      "end": 551,
+      "score": 0.85
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 820,
+      "end": 830,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 926,
+      "end": 948,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 2023,
+      "end": 2032,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 2263,
+      "end": 2267,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 2269,
+      "end": 2280,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 207,
+      "end": 219,
+      "score": 0.75
+    },
+    {
+      "entity_type": "DATE_TIME",
+      "start": 87,
+      "end": 97,
+      "score": 0.6
+    },
+    {
+      "entity_type": "DATE_TIME",
+      "start": 2550,
+      "end": 2560,
+      "score": 0.6
+    },
+    {
+      "entity_type": "URL",
+      "start": 227,
+      "end": 235,
+      "score": 0.5
+    },
+    {
+      "entity_type": "URL",
+      "start": 239,
+      "end": 250,
+      "score": 0.5
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 316,
+      "end": 327,
+      "score": 0.4
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 2217,
+      "end": 2228,
+      "score": 0.4
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 2655,
+      "end": 2666,
+      "score": 0.4
+    }
+  ],
+  "anonymized_text": "Referto clinico completo del paziente <PERSON>. Paziente di sesso maschile, nato il <DATE_TIME> a <LOCATION>, codice fiscale <IT_FISCAL_CODE>, residente in <ADDRESS>. Numero di cellulare <PHONE_NUMBER>, email <EMAIL_ADDRESS>. Tessera sanitaria 8038001234567890. Identificativo paziente PAT-<PHONE_NUMBER>. Medico di medicina generale: <PERSON>. Contatto di emergenza: <PERSON>, telefono <PHONE_NUMBER>. Ricovero presso <ORGANIZATION> in data <DATE_TIME> per valutazione cardiometabolica. <PERSON> patologica remota: diabete mellito tipo 2 diagnosticato nel 2019, ipertensione arteriosa essenziale diagnosticata nel 2017, dislipidemia, steatosi epatica non alcolica, appendicectomia nel 2008. Allergie note: penicillina, amoxicillina e lattice. Terapia domiciliare: <LOCATION> 1000 mg due volte al giorno, Ramipril 5 mg una volta al giorno, Atorvastatina 20 mg alla sera, <PERSON> 100 mg al giorno. Parametri vitali all'ingresso: pressione arteriosa 145/90 mmHg, frequenza cardiaca 82 bpm, saturazione di ossigeno 98%, temperatura corporea 36,7°C, peso 91 kg, altezza 178 cm, BMI 28,7. Esami ematochimici: glucosio 168 mg/dL, emoglobina glicata HbA1c 7,3%, colesterolo totale 238 mg/dL, LDL 156 mg/dL, HDL 48 mg/dL, trigliceridi 180 mg/dL, creatinina 0,98 mg/dL, azotemia 38 mg/dL, AST 42 U/L, ALT 56 U/L, gamma GT 71 U/L, emocromo nella norma. Esami strumentali: ECG con ritmo sinusale regolare a 81 bpm senza alterazioni ischemiche acute; ecocardiogramma con frazione di eiezione 58%, lieve ipertrofia ventricolare sinistra; radiografia del torace negativa per lesioni acute. Diagnosi principale: sindrome metabolica con diabete mellito tipo 2 non ottimamente controllato e ipertensione arteriosa in trattamento farmacologico. Diagnosi secondarie: obesità di grado I, dislipidemia mista, steatosi epatica. Familiarità positiva per malattie cardiovascolari: padre deceduto per infarto miocardico acuto a 67 anni, madre affetta da diabete mellito tipo 2. <PERSON> di vita: ex fumatore, 15 pacchetti/anno, cessazione nel 2021; consumo occasionale di alcol; attività fisica saltuaria. Codice esenzione sanitaria 013. Numero polizza sanitaria PRIV-IT-<PHONE_NUMBER>. Referto firmato digitalmente dal <PERSON>. <PERSON>, matricola MED-45872, Unità Operativa di Cardiologia. Raccomandato follow-up clinico entro sei mesi con ripetizione di ECG, ecocardiogramma, profilo lipidico completo, funzionalità epatica e monitoraggio dell'emoglobina glicata. Data ultimo accesso al pronto soccorso: <DATE_TIME> per episodio di dolore toracico non cardiaco. Consenso informato archiviato con protocollo CI-<PHONE_NUMBER>."
+}
