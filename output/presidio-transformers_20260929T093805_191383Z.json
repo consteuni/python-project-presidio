@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-09-29T09:38:05.191383+00:00",
+  "language": "it",
+  "models": [
+    {
+      "lang_code": "it",
+      "model_name": {
+        "spacy": "it_core_news_sm",
+        "transformers": "FacebookAI/roberta-base"
+      }
+    }
+  ],
+  "original_text": "Mi chiamo Marco Rossi e vivo a Roma.",
+  "analyzer_results": [],
+  "anonymized_text": "Mi chiamo Marco Rossi e vivo a Roma."
+}

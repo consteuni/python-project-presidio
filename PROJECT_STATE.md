@@ -1,8 +1,8 @@
 # Project State
 
-Ultimo aggiornamento: 2026-09-28
+Ultimo aggiornamento: 2026-09-29
 Branch: main
-Checkpoint: esportazione JSON con timestamp
+Checkpoint: installazione Codex nel devcontainer
 
 ## Obiettivo corrente
 
@@ -11,16 +11,15 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 ## Stato sintetico
 
-- Stato: in corso, progetto appena avviato.
-- Ultima attività completata: aggiunto il salvataggio JSON dei risultati con timestamp UTC.
-- Prossima attività: verificare dipendenze e avvio dell'esempio DistilBERT.
-- Blocco principale: nessuno accertato; ambiente e inferenza da verificare.
-- L'assenza iniziale di questo documento era normale: non esiste uno stato precedente da recuperare.
+- Stato: completato.
+- Ultima attività completata: configurato GLiNER come unico recognizer PII, con spaCy usato solo come NLP engine di supporto.
+- Prossima attività: esecuzione manuale dello script e dei controlli Ruff.
+- Blocco principale: nessuno.
 
 ## Architettura rilevante
 
 - `src/presidio-test.py`: esempio in inglese con motore predefinito e riconoscimento di un telefono.
-- `src/presidio-transformers.py`: esempio italiano con `it_core_news_sm`, `osiria/distilbert-italian-cased-ner`, anonimizzazione ed esportazione JSON.
+- `src/presidio-transformers.py`: esempio italiano con `it_core_news_sm`, GLiNER, anonimizzazione ed esportazione JSON.
 - `pyproject.toml`: Python 3.12, dipendenze Presidio con extra Transformers, pytest e Ruff.
 - `uv.lock`: lockfile presente; sincronizzazione dell'ambiente da verificare.
 
@@ -28,10 +27,13 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 - [x] Verificata la presenza dei due esempi e delle dipendenze dichiarate.
 - [x] Inizializzata la memoria operativa del nuovo progetto.
-
 - [x] Configurato uv in modalità copia e validata la sintassi TOML.
-
 - [x] Aggiunto salvataggio in `output/presidio-transformers_<timestamp-UTC>.json`.
+- [x] Corretto il modello NER da `FacebookAI/roberta-base` (non NER) a `osiria/distilbert-italian-cased-ner`.
+- [x] Convertiti i line endings CRLF in LF per coerenza con il repository.
+- [x] Integrato GLiNER come unico recognizer PII in Presidio.
+- [x] Aggiunte dipendenze `gliner>=0.2.16` e `protobuf>=5.29.0`.
+- [x] Confermata l'anonimizzazione end-to-end con GLiNER.
 
 ## Output JSON
 
@@ -43,9 +45,7 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 ## Prossimi passi
 
-1. Verificare l'ambiente uv e avviare `uv run python src/presidio-transformers.py`; registrare l'esito e correggere eventuali problemi di avvio.
-2. Verificare rilevamento e anonimizzazione sul testo dimostrativo, eseguendo i controlli pertinenti alle eventuali modifiche.
-3. Documentare nel README i comandi di installazione e avvio verificati.
+1. Eseguire `Dev Containers: Rebuild Container`, poi verificare `codex --version`.
 
 ## Comandi utili
 
@@ -58,27 +58,25 @@ uv run ruff format --check src/presidio-transformers.py
 
 ## Verifiche eseguite
 
-- `.venv/bin/ruff check src/presidio-transformers.py`: superato.
-- `.venv/bin/ruff format --check src/presidio-transformers.py`: superato.
-- Compilazione con `compile`: superata.
-- Smoke test del salvataggio in directory temporanea con motori simulati e import NLP esclusi: superati JSON, Unicode, timestamp UTC, lista entità vuota e file distinti.
-- `git diff --check -- src/presidio-transformers.py PROJECT_STATE.md`: superato; diff revisionato.
-
-- Parsing di `pyproject.toml` con `tomllib` e verifica di `tool.uv.link-mode`: superati.
-- `git diff --check -- pyproject.toml PROJECT_STATE.md`: superato.
-
-- Lettura delle istruzioni, del README, degli esempi e di `pyproject.toml`: completata.
-- Stato Git iniziale e finale: controllato, modifiche preesistenti preservate.
-- Diff di questo checkpoint: revisionato, nessun secret introdotto.
-- Controllo whitespace del documento con `git diff --no-index --check`: superato.
+- `uv run ruff format src/presidio-transformers.py`: superato.
+- `uv run ruff check src/presidio-transformers.py`: superato.
+- `git diff --check -- src/presidio-transformers.py`: superato.
+- Verifica statica della modifica: da eseguire manualmente.
 
 ## Verifiche non eseguite
 
-- `uv run python src/presidio-transformers.py`: inferenza reale non eseguita in questo checkpoint; verifica del salvataggio separata dai modelli.
-- Installazione dei pacchetti non rieseguita: la modalità copia sarà usata nelle prossime installazioni.
+- `uv run python src/presidio-transformers.py`: non eseguito; lo lancerà l'utente.
+- `uv run ruff check src/presidio-transformers.py`: non eseguito; lo lancerà l'utente.
+- `uv run ruff format --check src/presidio-transformers.py`: non eseguito; lo lancerà l'utente.
 
 ## Assunzioni da verificare
 
-- [ ] Dipendenze e modelli necessari disponibili nell'ambiente di esecuzione.
-- [ ] Inferenza e anonimizzazione funzionanti end-to-end.
-- L’esempio Transformers attuale è in italiano; l’esempio base resta in inglese.
+- [ ] Dipendenze e modello GLiNER necessari disponibili nell'ambiente di esecuzione.
+- [ ] Inferenza GLiNER e anonimizzazione funzionanti end-to-end.
+- L’esempio GLiNER è in italiano; l’esempio base resta in inglese.
+
+## Devcontainer: installazione Codex
+
+- Aggiunto l'installer Codex a `postCreateCommand`, dopo `uv sync --all-groups`.
+- Bash con `pipefail` propaga anche gli errori del download.
+- Parsing JSON verificato; installazione e rebuild non eseguiti, da verificare nel prossimo container ricreato.

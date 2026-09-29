@@ -3,8 +3,10 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from presidio_analyzer import AnalyzerEngine
-from presidio_analyzer.nlp_engine import TransformersNlpEngine
+from presidio_analyzer.nlp_engine import SpacyNlpEngine
 from presidio_anonymizer import AnonymizerEngine
+
+from gliner_recognizer import GLiNERRecognizer
 
 
 def main() -> None:
@@ -15,16 +17,16 @@ def main() -> None:
             "lang_code": "it",
             "model_name": {
                 "spacy": "it_core_news_sm",
-                "transformers": "osiria/distilbert-italian-cased-ner",
             },
         }
     ]
 
-    nlp_engine = TransformersNlpEngine(models=models)
+    nlp_engine = SpacyNlpEngine(models=models)
     analyzer = AnalyzerEngine(
         nlp_engine=nlp_engine,
         supported_languages=["it"],
     )
+    analyzer.registry.add_recognizer(GLiNERRecognizer())
 
     results = analyzer.analyze(text=text, language="it")
     anonymized = AnonymizerEngine().anonymize(
@@ -36,7 +38,10 @@ def main() -> None:
     output = {
         "timestamp": timestamp.isoformat(),
         "language": "it",
-        "models": models,
+        "models": {
+            "nlp": models,
+            "gliner": "urchade/gliner_multi_pii-v1",
+        },
         "original_text": text,
         "analyzer_results": [
             {
