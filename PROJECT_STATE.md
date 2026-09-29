@@ -10,8 +10,8 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 ## Stato sintetico
 
 - Stato: in corso.
-- Ultima attività completata: aggiunti recognizer regex per identificativi clinici e numeri cartella.
-- Prossima attività: verificare end-to-end gli identificativi regex sui referti.
+- Ultima attività completata: valutato un referto reale di test e verificata la copertura di `EPISODE_INFO`.
+- Prossima attività: ridurre i falsi positivi prodotti da GLiNER.
 
 ## Architettura rilevante
 
@@ -40,6 +40,9 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 - [x] Aggiunti pattern per tessera sanitaria, identificativo paziente, polizza, protocollo e numero cartella clinica.
 - [x] `EPISODE_INFO` supporta numeri cartella da 10 o 12 cifre, incluso il prefisso `01`.
 - [x] Analizzati i referti presenti in `input/referti/`.
+- [x] Supportata la lettura dei campi `text`, `content` e `analyzeResult.content`.
+- [x] Valutato `output/presidio-transformers_20260929T152812_055943Z.json`.
+- [x] Verificata l'anonimizzazione del nome paziente, contatti, indirizzi, date e numeri cartella.
 
 ## Output JSON
 
@@ -51,7 +54,8 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 ## Prossimi passi
 
-1. Eseguire una verifica end-to-end sui referti e controllare eventuali falsi positivi.
+1. Testare soglia e filtraggio dei risultati GLiNER sui referti.
+2. Separare i falsi positivi GLiNER dai recognizer regex deterministici.
 
 ## Comandi utili
 
@@ -75,7 +79,9 @@ uv run ruff format --check src/presidio-transformers.py
 - `uv run python src/presidio-transformers.py input/example3.json`: superato senza warning di troncamento GLiNER.
 - `uv run ruff check src/regex_recognizers.py src/presidio-transformers.py`: superato.
 - `uv run ruff format --check src/regex_recognizers.py src/presidio-transformers.py`: superato.
-- Test end-to-end sui referti: non ancora completato.
+- `python -m py_compile src/presidio-transformers.py`: superato.
+- `git diff --check`: superato.
+- Test su `output/presidio-transformers_20260929T152812_055943Z.json`: copertura dei dati diretti buona, falsi positivi numerosi.
 
 ## Assunzioni da verificare
 
@@ -83,4 +89,16 @@ uv run ruff format --check src/presidio-transformers.py
 - [x] Inferenza GLiNER e anonimizzazione funzionanti end-to-end.
 - [ ] I numeri cartella sono sempre preceduti da `Numero Cartella` o da una variante gestibile.
 - [ ] I codici regex non entrano in conflitto con i recognizer generici di Presidio.
-- L’esempio GLiNER è in italiano; l’esempio base resta in inglese.
+
+## Problemi noti
+
+- GLiNER con soglia attuale produce falsi positivi su parole comuni, intestazioni e nomi di esami (`Paziente`, `Esame`, `S-SODIO`, ecc.).
+- In alcuni casi GLiNER classifica frasi cliniche come `CLINICAL_IDENTIFIER`; l'output resta semanticamente degradato anche quando i dati personali sono coperti.
+
+### Nota per i test successivi
+
+La valutazione del referto `output/presidio-transformers_20260929T152812_055943Z.json` è la baseline di riferimento: la copertura dei dati personali e di `EPISODE_INFO` è buona, ma i falsi positivi GLiNER sono numerosi e riducono la qualità clinica dell'output. Questi risultati servono per confrontare ogni modifica a soglia, filtraggio o recognizer.
+
+## Decisioni
+
+- `EPISODE_INFO` riconosce solo numeri associati alla dicitura `Numero Cartella`, con lunghezza 10 o 12 cifre, per evitare catture generiche.

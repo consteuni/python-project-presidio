@@ -20,16 +20,27 @@ def load_text(input_path: Path) -> str:
     except json.JSONDecodeError as error:
         raise ValueError(f"JSON non valido in {input_path}: {error.msg}") from error
 
-    text = data.get("text") if isinstance(data, dict) else None
+    text = None
+    if isinstance(data, dict):
+        text = data.get("text")
+        if text is None:
+            text = data.get("content")
+        if text is None and isinstance(data.get("analyzeResult"), dict):
+            text = data["analyzeResult"].get("content")
     if not isinstance(text, str):
-        raise ValueError("Il JSON deve contenere il campo stringa 'text'")
+        raise ValueError(
+            "Il JSON deve contenere il campo stringa 'text' o 'content' "
+            "(anche in 'analyzeResult')"
+        )
     return text
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Analizza e anonimizza il testo di un file JSON.")
     parser.add_argument(
-        "input_json", type=Path, help="File JSON contenente il campo stringa 'text'"
+        "input_json",
+        type=Path,
+        help="File JSON contenente 'text' o 'content' come stringa",
     )
     args = parser.parse_args()
     try:

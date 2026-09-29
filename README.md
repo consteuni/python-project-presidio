@@ -2,13 +2,15 @@
 
 ## Esecuzione
 
-Lo script legge il testo dal campo `text` di un file JSON esterno:
+Lo script legge il testo dal campo `text` o `content` di un file JSON esterno.
 
 ```json
 {
   "text": "Mi chiamo Marco Rossi e vivo a Roma."
 }
 ```
+
+Sono supportati anche i JSON di Azure Document Intelligence, dove il testo si trova in `analyzeResult.content`.
 
 Esecuzione:
 
