@@ -8,6 +8,7 @@ from presidio_analyzer.nlp_engine import SpacyNlpEngine
 from presidio_anonymizer import AnonymizerEngine
 
 from gliner_recognizer import GLiNERRecognizer
+from regex_recognizers import ClinicalIdentifierRecognizer, EpisodeInfoRecognizer
 
 
 def load_text(input_path: Path) -> str:
@@ -48,6 +49,8 @@ def main() -> None:
         nlp_engine=nlp_engine,
         supported_languages=["it"],
     )
+    analyzer.registry.add_recognizer(ClinicalIdentifierRecognizer())
+    analyzer.registry.add_recognizer(EpisodeInfoRecognizer())
     analyzer.registry.add_recognizer(GLiNERRecognizer())
 
     results = analyzer.analyze(text=text, language="it")

@@ -1,8 +1,6 @@
 # Project State
 
-Ultimo aggiornamento: 2026-09-29
-Branch: main
-Checkpoint: installazione esplicita Python nel devcontainer
+Aggiornato: 2026-09-29 · Branch: main · Stato: in corso
 
 ## Obiettivo corrente
 
@@ -11,15 +9,16 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 ## Stato sintetico
 
-- Stato: completato.
-- Ultima attività completata: aggiunto chunking GLiNER con offset originali per testi lunghi.
-- Prossima attività: aggiungere recognizer dedicati per gli identificativi clinici non rilevati.
-- Blocco principale: nessuno.
+- Stato: in corso.
+- Ultima attività completata: aggiunti recognizer regex per identificativi clinici e numeri cartella.
+- Prossima attività: verificare end-to-end gli identificativi regex sui referti.
 
 ## Architettura rilevante
 
 - `src/presidio-test.py`: esempio in inglese con motore predefinito e riconoscimento di un telefono.
 - `src/presidio-transformers.py`: esempio italiano con `it_core_news_sm`, GLiNER, anonimizzazione ed esportazione JSON.
+- `src/regex_recognizers.py`: recognizer regex per identificativi clinici strutturati.
+- `input/referti/`: referti JSON con campo `content` usati per ricavare i formati reali.
 - `pyproject.toml`: Python 3.12, dipendenze Presidio con extra Transformers, pytest e Ruff.
 - `uv.lock`: lockfile presente; sincronizzazione dell'ambiente da verificare.
 
@@ -38,6 +37,9 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 - [x] Aggiunta lettura del campo `text` da JSON tramite argomento da riga di comando.
 - [x] Esteso GLiNER con le entità semantiche `ADDRESS` e `PROFESSION`.
 - [x] Divisi i testi lunghi in chunk sovrapposti e rimappati gli offset delle entità.
+- [x] Aggiunti pattern per tessera sanitaria, identificativo paziente, polizza, protocollo e numero cartella clinica.
+- [x] `EPISODE_INFO` supporta numeri cartella da 10 o 12 cifre, incluso il prefisso `01`.
+- [x] Analizzati i referti presenti in `input/referti/`.
 
 ## Output JSON
 
@@ -49,7 +51,7 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 ## Prossimi passi
 
-1. Aggiungere recognizer regex per tessera sanitaria, polizza, protocollo e identificativo paziente.
+1. Eseguire una verifica end-to-end sui referti e controllare eventuali falsi positivi.
 
 ## Comandi utili
 
@@ -71,24 +73,14 @@ uv run ruff format --check src/presidio-transformers.py
 - `python -m json.tool output/presidio-transformers_20260929T125543_845857Z.json`: superato.
 - `uv run python src/presidio-transformers.py input/example.json`: superato.
 - `uv run python src/presidio-transformers.py input/example3.json`: superato senza warning di troncamento GLiNER.
+- `uv run ruff check src/regex_recognizers.py src/presidio-transformers.py`: superato.
+- `uv run ruff format --check src/regex_recognizers.py src/presidio-transformers.py`: superato.
+- Test end-to-end sui referti: non ancora completato.
 
 ## Assunzioni da verificare
 
 - [ ] Dipendenze e modello GLiNER necessari disponibili nell'ambiente di esecuzione.
 - [x] Inferenza GLiNER e anonimizzazione funzionanti end-to-end.
-- [ ] Gli identificativi clinici presenti in testi lunghi sono tutti riconosciuti: servono recognizer dedicati.
+- [ ] I numeri cartella sono sempre preceduti da `Numero Cartella` o da una variante gestibile.
+- [ ] I codici regex non entrano in conflitto con i recognizer generici di Presidio.
 - L’esempio GLiNER è in italiano; l’esempio base resta in inglese.
-
-## Devcontainer: installazione Codex
-
-- Aggiunto l'installer Codex a `postCreateCommand`, dopo `uv sync --all-groups`.
-- Bash con `pipefail` propaga anche gli errori del download.
-- Parsing JSON verificato; installazione e rebuild non eseguiti, da verificare nel prossimo container ricreato.
-
-## Devcontainer: installazione Python
-
-- `postCreateCommand` esegue `uv python install` prima di `uv sync --all-groups`.
-- La versione resta definita da `.python-version` (3.12), senza fissare la patch.
-- README aggiornato con il comportamento di inizializzazione.
-- Parsing JSON, ordine dei comandi e sintassi Bash verificati; diff controllato senza nuovi secret.
-- Rebuild del container non eseguito dalla sessione: resta da verificare l’installazione nel container ricreato.
