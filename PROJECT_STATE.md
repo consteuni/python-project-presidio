@@ -2,7 +2,7 @@
 
 Ultimo aggiornamento: 2026-09-29
 Branch: main
-Checkpoint: installazione Codex nel devcontainer
+Checkpoint: installazione esplicita Python nel devcontainer
 
 ## Obiettivo corrente
 
@@ -12,8 +12,8 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 ## Stato sintetico
 
 - Stato: completato.
-- Ultima attività completata: configurato GLiNER come unico recognizer PII, con spaCy usato solo come NLP engine di supporto.
-- Prossima attività: esecuzione manuale dello script e dei controlli Ruff.
+- Ultima attività completata: reso il testo di input configurabile tramite file JSON esterno.
+- Prossima attività: nessuna; input JSON e flusso end-to-end sono stati verificati.
 - Blocco principale: nessuno.
 
 ## Architettura rilevante
@@ -34,6 +34,9 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 - [x] Integrato GLiNER come unico recognizer PII in Presidio.
 - [x] Aggiunte dipendenze `gliner>=0.2.16` e `protobuf>=5.29.0`.
 - [x] Confermata l'anonimizzazione end-to-end con GLiNER.
+- [x] Corretto `model_name` da dizionario a stringa per la compatibilità con Presidio.
+- [x] Aggiunta lettura del campo `text` da JSON tramite argomento da riga di comando.
+- [x] Esteso GLiNER con le entità semantiche `ADDRESS` e `PROFESSION`.
 
 ## Output JSON
 
@@ -45,7 +48,7 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 ## Prossimi passi
 
-1. Eseguire `Dev Containers: Rebuild Container`, poi verificare `codex --version`.
+1. Fornire un file JSON con campo `text` per eseguire una nuova analisi.
 
 ## Comandi utili
 
@@ -61,18 +64,16 @@ uv run ruff format --check src/presidio-transformers.py
 - `uv run ruff format src/presidio-transformers.py`: superato.
 - `uv run ruff check src/presidio-transformers.py`: superato.
 - `git diff --check -- src/presidio-transformers.py`: superato.
-- Verifica statica della modifica: da eseguire manualmente.
-
-## Verifiche non eseguite
-
-- `uv run python src/presidio-transformers.py`: non eseguito; lo lancerà l'utente.
-- `uv run ruff check src/presidio-transformers.py`: non eseguito; lo lancerà l'utente.
-- `uv run ruff format --check src/presidio-transformers.py`: non eseguito; lo lancerà l'utente.
+- `uv run ruff format --check src/presidio-transformers.py`: superato.
+- `uv run pytest`: nessun test raccolto (exit 5).
+- `uv run python src/presidio-transformers.py`: superato; rilevate entità, testo anonimizzato e JSON generato.
+- `python -m json.tool output/presidio-transformers_20260929T125543_845857Z.json`: superato.
+- `uv run python src/presidio-transformers.py input/example.json`: superato.
 
 ## Assunzioni da verificare
 
 - [ ] Dipendenze e modello GLiNER necessari disponibili nell'ambiente di esecuzione.
-- [ ] Inferenza GLiNER e anonimizzazione funzionanti end-to-end.
+- [x] Inferenza GLiNER e anonimizzazione funzionanti end-to-end.
 - L’esempio GLiNER è in italiano; l’esempio base resta in inglese.
 
 ## Devcontainer: installazione Codex
@@ -80,3 +81,11 @@ uv run ruff format --check src/presidio-transformers.py
 - Aggiunto l'installer Codex a `postCreateCommand`, dopo `uv sync --all-groups`.
 - Bash con `pipefail` propaga anche gli errori del download.
 - Parsing JSON verificato; installazione e rebuild non eseguiti, da verificare nel prossimo container ricreato.
+
+## Devcontainer: installazione Python
+
+- `postCreateCommand` esegue `uv python install` prima di `uv sync --all-groups`.
+- La versione resta definita da `.python-version` (3.12), senza fissare la patch.
+- README aggiornato con il comportamento di inizializzazione.
+- Parsing JSON, ordine dei comandi e sintassi Bash verificati; diff controllato senza nuovi secret.
+- Rebuild del container non eseguito dalla sessione: resta da verificare l’installazione nel container ricreato.

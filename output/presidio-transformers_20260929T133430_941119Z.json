@@ -1,0 +1,125 @@
+{
+  "timestamp": "2026-09-29T13:34:30.941119+00:00",
+  "language": "it",
+  "models": {
+    "nlp": [
+      {
+        "lang_code": "it",
+        "model_name": "it_core_news_sm"
+      }
+    ],
+    "gliner": "urchade/gliner_multi_pii-v1"
+  },
+  "original_text": "Mi chiamo Marco Rossi e vivo a Roma. Il mio cellulare è 123-456-7890. Sono nato il 15/03/1978 e il mio codice fiscale è RSSMRC78C15H501X. Il mio medico di base è la Dott.ssa Laura Bianchi. In data 12/09/2026 mi sono recato presso il Policlinico per una visita cardiologica di controllo. La pressione arteriosa rilevata era pari a 145/90 mmHg e la frequenza cardiaca di 82 bpm. Assumo regolarmente Ramipril 5 mg una volta al giorno per il trattamento dell'ipertensione arteriosa. Negli ultimi esami ematici il colesterolo totale risultava pari a 238 mg/dL, LDL 156 mg/dL, HDL 48 mg/dL e trigliceridi 180 mg/dL. Sono allergico alla penicillina e ho una storia clinica di diabete mellito di tipo 2 diagnosticato nel 2019. Il mio numero di tessera sanitaria è 8038001234567890 e il mio contatto di emergenza è Anna Rossi al numero 333-987-6543. Durante l'ultimo ricovero mi è stato assegnato l'identificativo paziente PAT-2026-000123 e il referto è stato firmato dal Dott. Paolo Verdi del reparto di Cardiologia.",
+  "analyzer_results": [
+    {
+      "entity_type": "PERSON",
+      "start": 10,
+      "end": 21,
+      "score": 0.9984453320503235
+    },
+    {
+      "entity_type": "DATE_TIME",
+      "start": 197,
+      "end": 207,
+      "score": 0.9919477105140686
+    },
+    {
+      "entity_type": "IT_FISCAL_CODE",
+      "start": 120,
+      "end": 136,
+      "score": 0.9906802773475647
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 165,
+      "end": 187,
+      "score": 0.9778320789337158
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 806,
+      "end": 816,
+      "score": 0.9762727618217468
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 963,
+      "end": 980,
+      "score": 0.9759445190429688
+    },
+    {
+      "entity_type": "ORGANIZATION",
+      "start": 233,
+      "end": 244,
+      "score": 0.9617452025413513
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 31,
+      "end": 35,
+      "score": 0.9308130145072937
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 827,
+      "end": 839,
+      "score": 0.8519628643989563
+    },
+    {
+      "entity_type": "ORGANIZATION",
+      "start": 165,
+      "end": 187,
+      "score": 0.85
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 233,
+      "end": 244,
+      "score": 0.85
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 963,
+      "end": 967,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 996,
+      "end": 1007,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 56,
+      "end": 68,
+      "score": 0.75
+    },
+    {
+      "entity_type": "MEDICAL_LICENSE",
+      "start": 756,
+      "end": 772,
+      "score": 0.7010142803192139
+    },
+    {
+      "entity_type": "DATE_TIME",
+      "start": 83,
+      "end": 93,
+      "score": 0.6
+    },
+    {
+      "entity_type": "DATE_TIME",
+      "start": 713,
+      "end": 717,
+      "score": 0.519364595413208
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 918,
+      "end": 929,
+      "score": 0.4
+    }
+  ],
+  "anonymized_text": "Mi chiamo <PERSON> e vivo a <LOCATION>. Il mio cellulare è <PHONE_NUMBER>. Sono nato il <DATE_TIME> e il mio codice fiscale è <IT_FISCAL_CODE>. Il mio medico di base è la <PERSON>. In data <DATE_TIME> mi sono recato presso il <ORGANIZATION> per una visita cardiologica di controllo. La pressione arteriosa rilevata era pari a 145/90 mmHg e la frequenza cardiaca di 82 bpm. Assumo regolarmente Ramipril 5 mg una volta al giorno per il trattamento dell'ipertensione arteriosa. Negli ultimi esami ematici il colesterolo totale risultava pari a 238 mg/dL, LDL 156 mg/dL, HDL 48 mg/dL e trigliceridi 180 mg/dL. Sono allergico alla penicillina e ho una storia clinica di diabete mellito di tipo 2 diagnosticato nel <DATE_TIME>. Il mio numero di tessera sanitaria è <MEDICAL_LICENSE> e il mio contatto di emergenza è <PERSON> al numero <PHONE_NUMBER>. Durante l'ultimo ricovero mi è stato assegnato l'identificativo paziente PAT-<PHONE_NUMBER> e il referto è stato firmato dal <PERSON> del reparto di <PERSON>."
+}

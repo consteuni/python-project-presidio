@@ -1,3 +1,4 @@
+import argparse
 import json
 from datetime import UTC, datetime
 from pathlib import Path
@@ -9,15 +10,36 @@ from presidio_anonymizer import AnonymizerEngine
 from gliner_recognizer import GLiNERRecognizer
 
 
+def load_text(input_path: Path) -> str:
+    try:
+        with input_path.open(encoding="utf-8") as file:
+            data = json.load(file)
+    except FileNotFoundError as error:
+        raise ValueError(f"File JSON non trovato: {input_path}") from error
+    except json.JSONDecodeError as error:
+        raise ValueError(f"JSON non valido in {input_path}: {error.msg}") from error
+
+    text = data.get("text") if isinstance(data, dict) else None
+    if not isinstance(text, str):
+        raise ValueError("Il JSON deve contenere il campo stringa 'text'")
+    return text
+
+
 def main() -> None:
-    text = "Mi chiamo Marco Rossi e vivo a Roma."
+    parser = argparse.ArgumentParser(description="Analizza e anonimizza il testo di un file JSON.")
+    parser.add_argument(
+        "input_json", type=Path, help="File JSON contenente il campo stringa 'text'"
+    )
+    args = parser.parse_args()
+    try:
+        text = load_text(args.input_json)
+    except ValueError as error:
+        parser.error(str(error))
 
     models = [
         {
             "lang_code": "it",
-            "model_name": {
-                "spacy": "it_core_news_sm",
-            },
+            "model_name": "it_core_news_sm",
         }
     ]
 

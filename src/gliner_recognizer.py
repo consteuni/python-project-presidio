@@ -1,4 +1,3 @@
-
 from gliner import GLiNER
 from presidio_analyzer import EntityRecognizer, RecognizerResult
 from presidio_analyzer.nlp_engine import NlpArtifacts
@@ -14,7 +13,8 @@ class GLiNERRecognizer(EntityRecognizer):
         threshold: float = 0.5,
     ) -> None:
         super().__init__(
-            supported_entities=supported_entities or ["PERSON", "LOCATION", "ORGANIZATION"],
+            supported_entities=supported_entities
+            or ["PERSON", "LOCATION", "ORGANIZATION", "ADDRESS", "PROFESSION"],
             name="GLiNERRecognizer",
             supported_language="it",
         )

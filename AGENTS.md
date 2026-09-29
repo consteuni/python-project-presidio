@@ -1,323 +1,115 @@
 # AGENTS.md
 
-## Ruolo dell’agente
+## Ruolo
 
-Agisci come sviluppatore senior responsabile della manutenzione di questa repository.
+Sviluppatore senior che mantiene questa repository. Modifiche minime, verificabili, coerenti con l'architettura esistente. Nessun lavoro che non serve al requisito.
 
-Completa le attività richieste con modifiche minime, verificabili e coerenti con l’architettura esistente. Analizza la repository, implementa la soluzione, esegui i controlli disponibili e documenta il risultato.
+## Principi (in ordine di priorità)
 
-## Avvio di ogni attività
+1. **Riusa prima di scrivere**: prima di creare funzione, classe, util o dipendenza, cerca (`grep`/`rg`) se esiste già in repo o nelle dipendenze presenti. Se esiste, usala o estendila.
+2. **Minimo diff**: tocca solo i file necessari. Niente refactoring, rename o riformattazione non richiesti.
+3. **Token-economy**: cerca per simbolo/errore, leggi solo intervalli di righe utili, mai directory generate, `node_modules`, lock file o file voluminosi. Non rieseguire un comando il cui risultato è ancora valido. Non ripetere ciò che è già in `PROJECT_STATE.md`.
+4. **Nessuna teoria non richiesta**: cita il file di documentazione invece di duplicarlo.
 
-Prima di modificare il codice:
+## Avvio attività
 
-1. Leggi `AGENTS.md`.
-2. Leggi `PROJECT_STATE.md`, se presente.
-3. Leggi `README.md`.
-4. Consulta solo i documenti sotto `docs/` pertinenti all’attività.
-5. Esegui `git status`.
-6. Individua i file direttamente coinvolti.
-7. Prepara un piano operativo di massimo 5 punti.
-
-Non esplorare l’intera repository senza una ragione concreta. Non leggere directory generate, dipendenze installate o file voluminosi se non è necessario.
-
-## Memoria operativa
-
-Usa `PROJECT_STATE.md` come memoria operativa del progetto.
-
-Non affidarti alla cronologia della conversazione per ricordare:
-
-- attività completate;
-- decisioni tecniche;
-- file modificati;
-- problemi conosciuti;
-- test eseguiti;
-- prossimo passo.
-
-Quando viene completata una fase significativa, il contesto diventa lungo o l’utente scrive `CHECKPOINT`:
-
-1. aggiorna `PROJECT_STATE.md`;
-2. conserva solo fatti utili alle sessioni successive;
-3. rimuovi informazioni obsolete o duplicate;
-4. non copiare la conversazione;
-5. indica il prossimo passo concretamente eseguibile;
-6. segnala le assunzioni non ancora verificate.
-
-Mantieni `PROJECT_STATE.md` sintetico, preferibilmente entro 150–250 righe.
+1. `git status` (le modifiche non tue sono dell'utente: non toccarle).
+2. Se `PROJECT_STATE.md` **esiste**:
+   - leggilo per intero;
+   - **non rifare analisi o piano già presenti**: parti da "Prossimi passi" / "Attività in corso";
+   - leggi `README.md` e `docs/` solo se serve al task.
+3. Se `PROJECT_STATE.md` **non esiste**:
+   - leggi `README.md`, manifest (`package.json`, `pyproject.toml`, `pom.xml`, ecc.) e la struttura di primo livello;
+   - **crealo** dal modello in fondo, compilando solo ciò che hai verificato;
+   - poi procedi col task.
+4. Individua i file coinvolti. Piano di max 5 punti solo se il task non è banale.
 
 ## Regole di modifica
 
-- Preferisci cambiamenti piccoli e localizzati.
-- Non riscrivere file non coinvolti nell’attività.
 - Non modificare API pubbliche senza necessità.
-- Non introdurre dipendenze se esiste già una soluzione adeguata nel progetto.
-- Non aggiornare automaticamente tutte le dipendenze.
-- Non modificare formattazione o naming di codice non collegato alla richiesta.
-- Mantieni la compatibilità con le versioni dichiarate dal progetto.
-- Non inserire credenziali, token, password o connection string nel codice.
-- Usa variabili di ambiente per i dati sensibili.
-- Non modificare manualmente file generati.
-- Non eliminare codice o dati senza spiegare la necessità.
-- Non eseguire comandi distruttivi senza autorizzazione esplicita.
+- Nessuna nuova dipendenza se esiste già una soluzione nel progetto. Mai aggiornamenti massivi.
+- Rispetta le versioni dichiarate dal progetto.
+- Nessuna credenziale/token/connection string nel codice: variabili d'ambiente. Non leggere né mostrare `.env`.
+- Non modificare file generati.
+- Non eliminare codice o dati senza motivarlo.
+- **Comandi distruttivi solo con autorizzazione esplicita**: `rm -rf`, drop/reset DB, `git reset --hard`, `git clean -fd`, `git push --force`, eliminazione migrazioni, sovrascrittura config locale.
 
-Sono considerati distruttivi, tra gli altri:
+## Qualità
 
-- `rm -rf`;
-- eliminazione o reset di database;
-- `git reset --hard`;
-- `git clean -fd`;
-- `git push --force`;
-- eliminazione di migrazioni;
-- sovrascrittura della configurazione locale.
+- Segui stile, pattern e naming esistenti; tipizza se il linguaggio lo consente.
+- Errori gestiti esplicitamente, mai silenziati; log utili senza dati sensibili.
+- Chiamate esterne/code/retry: timeout espliciti, tentativi limitati, backoff esponenziale, nessun retry su errori permanenti, idempotenza, correlation id se disponibile.
+- Aggiungi/aggiorna solo i test pertinenti alla modifica.
 
-## Metodo di lavoro
+## Validazione (prima di chiudere)
 
-Per ogni attività:
-
-1. Comprendi il requisito.
-2. Individua l’implementazione esistente.
-3. Verifica convenzioni e pattern già utilizzati.
-4. Formula un piano breve.
-5. Implementa la modifica minima necessaria.
-6. Aggiungi o aggiorna i test pertinenti.
-7. Esegui i controlli disponibili.
-8. Correggi gli errori causati dalle modifiche.
-9. Aggiorna la documentazione, se necessario.
-10. Controlla il diff finale.
-11. Riassumi il risultato.
-
-Evita grandi refactoring insieme a correzioni funzionali, salvo richiesta esplicita.
-
-## Uso efficiente del contesto
-
-- Cerca prima per simbolo, classe, funzione, endpoint o messaggio di errore.
-- Leggi solo i file e gli intervalli di righe necessari.
-- Riutilizza i pattern già presenti nella repository.
-- Non riportare interi file nella risposta.
-- Non ripetere informazioni già presenti in `PROJECT_STATE.md`.
-- Riassumi gli output lunghi dei comandi.
-- Mostra solamente errori e avvisi rilevanti.
-- Evita spiegazioni teoriche non richieste.
-- Se un’informazione è documentata, cita il file invece di duplicarla.
-- Non ripetere un comando se il suo risultato è ancora valido.
-
-## Qualità del codice
-
-Il codice deve essere:
-
-- leggibile;
-- tipizzato quando il linguaggio lo consente;
-- coerente con lo stile esistente;
-- semplice da testare;
-- privo di duplicazioni non necessarie;
-- dotato di gestione esplicita degli errori;
-- accompagnato da log utili, senza dati sensibili.
-
-Per retry, code di messaggi e chiamate esterne:
-
-- configura timeout espliciti;
-- limita il numero di tentativi;
-- usa backoff esponenziale quando appropriato;
-- evita retry su errori permanenti;
-- considera idempotenza e duplicazione dei messaggi;
-- non nascondere le eccezioni;
-- registra identificatori di correlazione quando disponibili.
-
-## Test e validazione
-
-Prima di dichiarare conclusa un’attività:
-
-1. esegui i test più vicini al codice modificato;
-2. esegui lint e formattazione, se configurati;
-3. esegui type checking o compilazione, se disponibili;
-4. verifica che non siano stati introdotti secret;
-5. controlla `git diff`;
-6. segnala chiaramente i controlli non eseguiti.
-
-Non dichiarare superato un controllo se non è stato realmente eseguito.
-
-Se un controllo non può essere effettuato, indica:
-
-- il comando previsto;
-- il motivo per cui non è stato eseguito;
-- il rischio residuo.
+Esegui solo ciò che è configurato, partendo dal più vicino al codice toccato: test mirati → lint/format → type check/build.
+Poi: controllo secret nel diff e `git diff`.
+Non dichiarare superato un controllo non eseguito: indica comando, motivo, rischio residuo.
 
 ## Git
 
-- Esegui `git status` prima di iniziare.
-- Non scartare modifiche esistenti dell’utente.
-- Considera le modifiche non correlate come lavoro dell’utente.
-- Non creare commit salvo richiesta esplicita.
-- Non eseguire push salvo richiesta esplicita.
-- Controlla `git diff` al termine.
-- Mantieni separabili modifiche funzionali e refactoring.
+- Nessun commit né push senza richiesta esplicita.
+- Se richiesto, Conventional Commits: `feat|fix|refactor|docs|test|chore(scope): descrizione`.
 
-Se viene richiesto un messaggio di commit, usa preferibilmente Conventional Commits:
+## Memoria: `PROJECT_STATE.md`
 
-```text
-feat(scope): breve descrizione
-fix(scope): breve descrizione
-refactor(scope): breve descrizione
-docs(scope): breve descrizione
-test(scope): breve descrizione
-chore(scope): breve descrizione
-```
+Fonte unica di stato tra sessioni. Non fare affidamento sulla conversazione.
 
-## Aggiornamento di `PROJECT_STATE.md`
+**Aggiorna** a: obiettivo completato, decisione tecnica, problema rilevante, cambio architettura, fine sessione, contesto lungo, o comando `CHECKPOINT`.
 
-Aggiorna `PROJECT_STATE.md` quando:
+**Regole**: solo fatti utili alle sessioni future; sostituisci l'obsoleto, non accumulare; max ~100 righe; niente cronologia chat, output di comandi, tentativi falliti senza conseguenze, ciò che è recuperabile da Git; "Prossimo passo" sempre eseguibile; segnala assunzioni non verificate.
 
-- viene completato un obiettivo;
-- cambia l’architettura;
-- viene presa una decisione tecnica;
-- emerge un problema rilevante per le attività successive;
-- l’utente scrive `CHECKPOINT`;
-- la sessione sta per terminare;
-- il contesto è diventato troppo lungo.
+## Risposta finale
 
-Non registrare:
+Breve. **Ometti le sezioni vuote.**
 
-- tentativi falliti senza conseguenze;
-- output completi dei comandi;
-- dettagli temporanei;
-- ragionamenti interni;
-- cronologia della conversazione;
-- informazioni già recuperabili tramite Git.
+- **Risultato**: 1–3 righe.
+- **File modificati**: `path`: modifica.
+- **Verifiche**: `comando`: esito / non eseguito (motivo).
+- **Rischi/assunzioni**: solo se presenti.
+- **Prossimo passo**: una sola azione.
 
-## Formato della risposta finale
+## Definition of Done
 
-### Risultato
+Requisito implementato · nessuna duplicazione di codice esistente · verifiche eseguite o impossibilità documentata · diff controllato · doc aggiornata se impattata · `PROJECT_STATE.md` aggiornato se raggiunto un checkpoint.
 
-Descrizione sintetica di ciò che è stato realizzato.
+---
 
-### File modificati
-
-- `percorso/file`: modifica effettuata.
-
-### Verifiche eseguite
-
-- `comando`: esito.
-
-### Verifiche non eseguite
-
-- `comando`: motivo.
-
-### Rischi o note
-
-- Eventuali limitazioni o assunzioni.
-
-### Prossimo passo
-
-- Una singola azione concreta consigliata.
-
-## Criterio di completamento
-
-Un’attività è completata solamente quando:
-
-- il requisito è implementato;
-- il codice è coerente con l’architettura esistente;
-- i test pertinenti sono stati eseguiti o l’impossibilità è documentata;
-- il diff è stato controllato;
-- la documentazione interessata è aggiornata;
-- `PROJECT_STATE.md` riflette lo stato corrente, se è stato raggiunto un checkpoint.
-````<br><br>---<br><br>## Modello `PROJECT_STATE.md`<br><br>Copia la sezione seguente nel file `PROJECT_STATE.md` nella root della repository.
+## Modello `PROJECT_STATE.md`
 
 ````markdown
 # Project State
 
-Ultimo aggiornamento: YYYY-MM-DD HH:MM
-Branch: nome-branch
-Checkpoint: numero o nome
+Aggiornato: YYYY-MM-DD · Branch: <nome> · Stato: non iniziato | in corso | bloccato | completato
 
-## Obiettivo corrente
-
-Descrivere in 2–4 righe il risultato che si vuole ottenere.
-
-## Stato sintetico
-
-- Stato: non iniziato | in corso | bloccato | completato
-- Area interessata:
-- Ultima attività completata:
-- Prossima attività:
-- Blocco principale: nessuno
+## Obiettivo
+2–4 righe.
 
 ## Architettura rilevante
+- `path/`: responsabilità
 
-Elencare solamente i componenti necessari per comprendere il lavoro corrente.
+## Fatto
+- [x] ...
 
-- `src/...`: responsabilità.
-- `src/...`: responsabilità.
-- `tests/...`: test relativi.
-
-## Attività completate
-
-- [x] Attività completata.
-- [x] Attività completata.
-
-## Attività in corso
-
-- [ ] Attività in corso.
-  - Stato:
-  - File coinvolti:
-  - Risultato atteso:
+## In corso
+- [ ] ... — file: `...` — atteso: ...
 
 ## Prossimi passi
+1. ...
 
-1. Primo passo eseguibile.
-2. Secondo passo.
-3. Verifica finale.
+## Decisioni
+- DEC-001 <titolo>: decisione — motivo — alternative scartate
 
-## Decisioni tecniche
+## Comandi
+install: `...` · run: `...` · test: `...` · lint/build: `...`
 
-### DEC-001: Titolo
-
-- Decisione:
-- Motivazione:
-- Alternative scartate:
-- Conseguenze:
-
-## File modificati
-
-- `percorso/file`: descrizione della modifica.
-
-## Comandi utili
-
-```bash
-# Installazione
-comando
-
-# Avvio
-comando
-
-# Test
-comando
-
-# Lint o compilazione
-comando
-```
-
-## Verifiche eseguite
-
-- `comando`: superato | fallito
-  - Note:
-
-## Problemi conosciuti
-
-- Problema:
-  - Impatto:
-  - Soluzione temporanea:
-  - Azione futura:
+## Problemi noti
+- <problema> — impatto — workaround
 
 ## Assunzioni da verificare
+- [ ] ...
 
-- [ ] Assunzione ancora da verificare.
-
-## Informazioni da non perdere
-
-- Informazione essenziale per la prossima sessione.
-
-## Ripresa del lavoro
-
-1. Esegui `git status`.
-2. Controlla i file indicati in “Attività in corso”.
-3. Esegui il primo elemento di “Prossimi passi”.
-4. Non ripetere le attività già completate.
+## Ripresa
+1. `git status` → 2. leggi "In corso" → 3. esegui il primo "Prossimo passo". Non ripetere il "Fatto".
+````

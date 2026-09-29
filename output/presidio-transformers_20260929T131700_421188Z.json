@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-09-29T13:17:00.421188+00:00",
+  "language": "it",
+  "models": {
+    "nlp": [
+      {
+        "lang_code": "it",
+        "model_name": "it_core_news_sm"
+      }
+    ],
+    "gliner": "urchade/gliner_multi_pii-v1"
+  },
+  "original_text": "Mi chiamo Marco Rossi e vivo a Roma. Il mio cellulare è 123-456-7890. Mio fratello si chiama Giovanni e il mioindirizzo è Via Roma 1.",
+  "analyzer_results": [
+    {
+      "entity_type": "PERSON",
+      "start": 10,
+      "end": 21,
+      "score": 0.9991119503974915
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 31,
+      "end": 35,
+      "score": 0.9788122773170471
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 93,
+      "end": 101,
+      "score": 0.9462826251983643
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 126,
+      "end": 130,
+      "score": 0.8629403114318848
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 56,
+      "end": 68,
+      "score": 0.75
+    }
+  ],
+  "anonymized_text": "Mi chiamo <PERSON> e vivo a <LOCATION>. Il mio cellulare è <PHONE_NUMBER>. Mio fratello si chiama <PERSON> e il mioindirizzo è Via <LOCATION> 1."
+}

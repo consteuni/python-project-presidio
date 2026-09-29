@@ -7,7 +7,7 @@
         "ghcr.io/va-h/devcontainers-features/uv:1": {}
     },
 
-    "postCreateCommand": "bash -o pipefail -c 'uv sync --all-groups && curl -fsSL https://chatgpt.com/codex/install.sh | sh'",
+    "postCreateCommand": "bash -o pipefail -c 'uv python install && uv sync --all-groups && curl -fsSL https://chatgpt.com/codex/install.sh | sh'",
 
     "customizations": {
         "vscode": {

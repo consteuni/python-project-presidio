@@ -1,0 +1,197 @@
+{
+  "timestamp": "2026-09-29T13:43:56.612477+00:00",
+  "language": "it",
+  "models": {
+    "nlp": [
+      {
+        "lang_code": "it",
+        "model_name": "it_core_news_sm"
+      }
+    ],
+    "gliner": "urchade/gliner_multi_pii-v1"
+  },
+  "original_text": "Mi chiamo Marco Rossi, sono nato il 15/03/1985 e vivo in Via Appia Nuova 123, 00183 Roma. Il mio cellulare è 123-456-7890 e il mio indirizzo email è marco.rossi@example.com. Il mio codice fiscale è RSSMRC85C15H501Z. Lavoro presso Acme Consulting S.r.l. come analista informatico. Il mio IBAN è IT60X0542811101000000123456 e utilizzo la carta di credito 4111 1111 1111 1111 per alcuni pagamenti online. Il mio account GitHub è github.com/marcorossi e il mio username aziendale è mrossi. In caso di emergenza è possibile contattare mia moglie Laura Rossi al numero 098-765-4321. Ho effettuato una visita presso il Policlinico Umberto I il 12/09/2026 e il numero della mia tessera sanitaria è 1234567890123456. Per ulteriori comunicazioni utilizzo anche l'indirizzo PEC marco.rossi@pec.it. Recentemente ho prenotato un viaggio utilizzando il passaporto YA1234567 e la patente RM12345678.",
+  "analyzer_results": [
+    {
+      "entity_type": "EMAIL_ADDRESS",
+      "start": 149,
+      "end": 172,
+      "score": 1.0
+    },
+    {
+      "entity_type": "IBAN_CODE",
+      "start": 294,
+      "end": 321,
+      "score": 1.0
+    },
+    {
+      "entity_type": "CREDIT_CARD",
+      "start": 353,
+      "end": 372,
+      "score": 1.0
+    },
+    {
+      "entity_type": "EMAIL_ADDRESS",
+      "start": 767,
+      "end": 785,
+      "score": 1.0
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 10,
+      "end": 21,
+      "score": 0.9995927214622498
+    },
+    {
+      "entity_type": "PERSON",
+      "start": 541,
+      "end": 552,
+      "score": 0.9950953722000122
+    },
+    {
+      "entity_type": "ORGANIZATION",
+      "start": 230,
+      "end": 252,
+      "score": 0.9941368103027344
+    },
+    {
+      "entity_type": "IT_FISCAL_CODE",
+      "start": 198,
+      "end": 214,
+      "score": 0.9901186227798462
+    },
+    {
+      "entity_type": "ADDRESS",
+      "start": 57,
+      "end": 88,
+      "score": 0.9874656796455383
+    },
+    {
+      "entity_type": "IT_PASSPORT",
+      "start": 850,
+      "end": 859,
+      "score": 0.970984935760498
+    },
+    {
+      "entity_type": "DATE_TIME",
+      "start": 637,
+      "end": 647,
+      "score": 0.9580773115158081
+    },
+    {
+      "entity_type": "PROFESSION",
+      "start": 258,
+      "end": 278,
+      "score": 0.9572767019271851
+    },
+    {
+      "entity_type": "MEDICAL_LICENSE",
+      "start": 690,
+      "end": 706,
+      "score": 0.9566215872764587
+    },
+    {
+      "entity_type": "EMAIL",
+      "start": 149,
+      "end": 172,
+      "score": 0.9426358938217163
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 563,
+      "end": 575,
+      "score": 0.939301609992981
+    },
+    {
+      "entity_type": "EMAIL",
+      "start": 767,
+      "end": 785,
+      "score": 0.9135125875473022
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 57,
+      "end": 66,
+      "score": 0.85
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 84,
+      "end": 88,
+      "score": 0.85
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 216,
+      "end": 222,
+      "score": 0.85
+    },
+    {
+      "entity_type": "LOCATION",
+      "start": 230,
+      "end": 251,
+      "score": 0.85
+    },
+    {
+      "entity_type": "ORGANIZATION",
+      "start": 287,
+      "end": 291,
+      "score": 0.85
+    },
+    {
+      "entity_type": "PHONE_NUMBER",
+      "start": 109,
+      "end": 121,
+      "score": 0.75
+    },
+    {
+      "entity_type": "URL",
+      "start": 426,
+      "end": 447,
+      "score": 0.6382237672805786
+    },
+    {
+      "entity_type": "DATE_TIME",
+      "start": 36,
+      "end": 46,
+      "score": 0.6
+    },
+    {
+      "entity_type": "IT_DRIVER_LICENSE",
+      "start": 873,
+      "end": 883,
+      "score": 0.5099433064460754
+    },
+    {
+      "entity_type": "URL",
+      "start": 149,
+      "end": 157,
+      "score": 0.5
+    },
+    {
+      "entity_type": "URL",
+      "start": 161,
+      "end": 172,
+      "score": 0.5
+    },
+    {
+      "entity_type": "URL",
+      "start": 767,
+      "end": 775,
+      "score": 0.5
+    },
+    {
+      "entity_type": "URL",
+      "start": 779,
+      "end": 785,
+      "score": 0.5
+    },
+    {
+      "entity_type": "IT_IDENTITY_CARD",
+      "start": 850,
+      "end": 859,
+      "score": 0.01
+    }
+  ],
+  "anonymized_text": "Mi chiamo <PERSON>, sono nato il <DATE_TIME> e vivo in <ADDRESS>. Il mio cellulare è <PHONE_NUMBER> e il mio indirizzo email è <EMAIL_ADDRESS>. Il mio codice fiscale è <IT_FISCAL_CODE>. <LOCATION> presso <ORGANIZATION> come <PROFESSION>. Il mio <ORGANIZATION> è <IBAN_CODE> e utilizzo la carta di credito <CREDIT_CARD> per alcuni pagamenti online. Il mio account GitHub è <URL> e il mio username aziendale è mrossi. In caso di emergenza è possibile contattare mia moglie <PERSON> al numero <PHONE_NUMBER>. Ho effettuato una visita presso il Policlinico Umberto I il <DATE_TIME> e il numero della mia tessera sanitaria è <MEDICAL_LICENSE>. Per ulteriori comunicazioni utilizzo anche l'indirizzo PEC <EMAIL_ADDRESS>. Recentemente ho prenotato un viaggio utilizzando il passaporto <IT_PASSPORT> e la patente <IT_DRIVER_LICENSE>."
+}
