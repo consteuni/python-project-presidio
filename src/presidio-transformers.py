@@ -62,7 +62,18 @@ def main() -> None:
     )
     analyzer.registry.add_recognizer(ClinicalIdentifierRecognizer())
     analyzer.registry.add_recognizer(EpisodeInfoRecognizer())
-    analyzer.registry.add_recognizer(GLiNERRecognizer())
+    analyzer.registry.add_recognizer(
+        GLiNERRecognizer(
+            threshold=0.9,
+            thresholds={
+                "PERSON": 0.9,
+                "LOCATION": 0.9,
+                "ORGANIZATION": 0.9,
+                "ADDRESS": 0.9,
+                "PROFESSION": 0.9,
+            },
+        )
+    )
 
     results = analyzer.analyze(text=text, language="it")
     anonymized = AnonymizerEngine().anonymize(

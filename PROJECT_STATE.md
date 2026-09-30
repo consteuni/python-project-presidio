@@ -1,6 +1,6 @@
 # Project State
 
-Aggiornato: 2026-09-29 · Branch: main · Stato: in corso
+Aggiornato: 2026-09-30 · Branch: main · Stato: in corso
 
 ## Obiettivo corrente
 
@@ -10,14 +10,15 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 ## Stato sintetico
 
 - Stato: in corso.
-- Ultima attività completata: valutato un referto reale di test e verificata la copertura di `EPISODE_INFO`.
-- Prossima attività: ridurre i falsi positivi prodotti da GLiNER.
+- Ultima attività completata: introdotte soglie GLiNER configurabili per ridurre i falsi positivi.
+- Prossima attività: validare il flusso end-to-end in un ambiente in cui il caricamento del modello completi.
 
 ## Architettura rilevante
 
 - `src/presidio-test.py`: esempio in inglese con motore predefinito e riconoscimento di un telefono.
 - `src/presidio-transformers.py`: esempio italiano con `it_core_news_sm`, GLiNER, anonimizzazione ed esportazione JSON.
 - `src/regex_recognizers.py`: recognizer regex per identificativi clinici strutturati.
+- `tests/test_gliner_recognizer.py`: test delle soglie e del filtraggio delle predizioni GLiNER.
 - `input/referti/`: referti JSON con campo `content` usati per ricavare i formati reali.
 - `pyproject.toml`: Python 3.12, dipendenze Presidio con extra Transformers, pytest e Ruff.
 - `uv.lock`: lockfile presente; sincronizzazione dell'ambiente da verificare.
@@ -43,6 +44,9 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 - [x] Supportata la lettura dei campi `text`, `content` e `analyzeResult.content`.
 - [x] Valutato `output/presidio-transformers_20260929T152812_055943Z.json`.
 - [x] Verificata l'anonimizzazione del nome paziente, contatti, indirizzi, date e numeri cartella.
+- [x] Impostata soglia GLiNER predefinita a `0.9` con override per entità.
+- [x] Mantenuti attivi i recognizer standard e regex di Presidio.
+- [x] Aggiunti test unitari per soglie valide, invalide e predizioni filtrate.
 
 ## Output JSON
 
@@ -56,6 +60,7 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 1. Testare soglia e filtraggio dei risultati GLiNER sui referti.
 2. Separare i falsi positivi GLiNER dai recognizer regex deterministici.
+3. Ripetere il test end-to-end sul referto baseline dopo il completamento del caricamento modello.
 
 ## Comandi utili
 
@@ -78,10 +83,14 @@ uv run ruff format --check src/presidio-transformers.py
 - `uv run python src/presidio-transformers.py input/example.json`: superato.
 - `uv run python src/presidio-transformers.py input/example3.json`: superato senza warning di troncamento GLiNER.
 - `uv run ruff check src/regex_recognizers.py src/presidio-transformers.py`: superato.
+- `uv run ruff check src/gliner_recognizer.py src/presidio-transformers.py tests/test_gliner_recognizer.py`: superato dopo correzione della nuova riga lunga.
+- `python -m py_compile src/gliner_recognizer.py src/presidio-transformers.py tests/test_gliner_recognizer.py`: superato.
 - `uv run ruff format --check src/regex_recognizers.py src/presidio-transformers.py`: superato.
 - `python -m py_compile src/presidio-transformers.py`: superato.
 - `git diff --check`: superato.
 - Test su `output/presidio-transformers_20260929T152812_055943Z.json`: copertura dei dati diretti buona, falsi positivi numerosi.
+- `uv run pytest tests/test_gliner_recognizer.py`: non completato nel tempo disponibile durante l'avvio dell'ambiente.
+- `uv run python src/presidio-transformers.py input/example.json`: non completato nel tempo disponibile durante il caricamento GLiNER.
 
 ## Assunzioni da verificare
 
@@ -93,6 +102,7 @@ uv run ruff format --check src/presidio-transformers.py
 ## Problemi noti
 
 - GLiNER con soglia attuale produce falsi positivi su parole comuni, intestazioni e nomi di esami (`Paziente`, `Esame`, `S-SODIO`, ecc.).
+- Il caricamento/inferenza GLiNER non ha completato nei tentativi di validazione di questa sessione; l'effetto end-to-end della soglia resta da misurare.
 - In alcuni casi GLiNER classifica frasi cliniche come `CLINICAL_IDENTIFIER`; l'output resta semanticamente degradato anche quando i dati personali sono coperti.
 
 ### Nota per i test successivi
@@ -102,3 +112,4 @@ La valutazione del referto `output/presidio-transformers_20260929T152812_055943Z
 ## Decisioni
 
 - `EPISODE_INFO` riconosce solo numeri associati alla dicitura `Numero Cartella`, con lunghezza 10 o 12 cifre, per evitare catture generiche.
+- GLiNER usa soglia `0.9` per default; le soglie per entità possono sovrascriverla e il filtraggio avviene solo nel recognizer GLiNER.
