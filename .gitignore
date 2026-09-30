@@ -29,3 +29,7 @@ input/referti
 
 # Artefatti
 *.json
+
+# Agents
+.AGENTS.md
+.PROJECT_STATE.md
