@@ -31,5 +31,5 @@ input/referti
 *.json
 
 # Agents
-.AGENTS.md
-.PROJECT_STATE.md
+AGENTS.md
+PROJECT_STATE.md
