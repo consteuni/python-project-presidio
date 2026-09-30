@@ -5,10 +5,14 @@ from pathlib import Path
 
 from presidio_analyzer import AnalyzerEngine
 from presidio_analyzer.nlp_engine import SpacyNlpEngine
-from presidio_anonymizer import AnonymizerEngine
 
 from gliner_recognizer import GLiNERRecognizer
-from regex_recognizers import ClinicalIdentifierRecognizer, EpisodeInfoRecognizer
+from regex_recognizers import (
+    ClinicalIdentifierRecognizer,
+    EpisodeInfoRecognizer,
+    ItalianPhoneRecognizer,
+)
+from result_resolver import anonymize_results, resolve_results
 
 
 def load_text(input_path: Path) -> str:
@@ -29,8 +33,7 @@ def load_text(input_path: Path) -> str:
             text = data["analyzeResult"].get("content")
     if not isinstance(text, str):
         raise ValueError(
-            "Il JSON deve contenere il campo stringa 'text' o 'content' "
-            "(anche in 'analyzeResult')"
+            "Il JSON deve contenere il campo stringa 'text' o 'content' (anche in 'analyzeResult')"
         )
     return text
 
@@ -62,6 +65,7 @@ def main() -> None:
     )
     analyzer.registry.add_recognizer(ClinicalIdentifierRecognizer())
     analyzer.registry.add_recognizer(EpisodeInfoRecognizer())
+    analyzer.registry.add_recognizer(ItalianPhoneRecognizer())
     analyzer.registry.add_recognizer(
         GLiNERRecognizer(
             threshold=0.9,
@@ -76,10 +80,8 @@ def main() -> None:
     )
 
     results = analyzer.analyze(text=text, language="it")
-    anonymized = AnonymizerEngine().anonymize(
-        text=text,
-        analyzer_results=results,
-    )
+    selected_results = resolve_results(results, text=text)
+    anonymized_text = anonymize_results(text, selected_results)
 
     timestamp = datetime.now(UTC)
     output = {
@@ -97,9 +99,9 @@ def main() -> None:
                 "end": int(result.end),
                 "score": float(result.score),
             }
-            for result in results
+            for result in selected_results
         ],
-        "anonymized_text": anonymized.text,
+        "anonymized_text": anonymized_text,
     }
     output_dir = Path(__file__).resolve().parent.parent / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -108,9 +110,7 @@ def main() -> None:
         json.dump(output, file, ensure_ascii=False, indent=2, allow_nan=False)
         file.write("\n")
 
-    print(f"Testo originale: {text}")
-    print(f"Entità rilevate: {results}")
-    print(f"Testo anonimizzato: {anonymized.text}")
+    print(f"Entità applicate: {len(selected_results)}")
     print(f"Output JSON salvato in: {output_path}")
 
 

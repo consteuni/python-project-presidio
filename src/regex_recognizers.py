@@ -34,6 +34,29 @@ class ClinicalIdentifierRecognizer(PatternRecognizer):
         )
 
 
+class ItalianPhoneRecognizer(PatternRecognizer):
+    """Recognizes Italian phone numbers without matching generic numeric IDs."""
+
+    def __init__(self) -> None:
+        super().__init__(
+            supported_entity="PHONE_NUMBER",
+            patterns=[
+                Pattern(
+                    name="italian_mobile",
+                    regex=r"(?<!\d)(?:\+39[\s.-]*)?3\d{2}[\s.-]?\d{3}[\s.-]?\d{4}(?!\d)",
+                    score=0.99,
+                ),
+                Pattern(
+                    name="italian_landline",
+                    regex=r"(?<!\d)(?:\+39[\s.-]*)?0\d{1,4}[\s.-]\d{3,4}[\s.-]?\d{3,4}(?!\d)",
+                    score=0.99,
+                ),
+            ],
+            context=["telefono", "cellulare", "mobile", "tel"],
+            supported_language="it",
+        )
+
+
 class EpisodeInfoRecognizer(PatternRecognizer):
     """Recognizes medical record numbers used for clinical episodes."""
 
