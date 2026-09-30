@@ -10,8 +10,8 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 ## Stato sintetico
 
 - Stato: in corso.
-- Ultima attività completata: testati tutti i 13 referti disponibili dopo il filtro semantico.
-- Prossima attività: filtrare i `PHONE_NUMBER` a score 0.4 non conformi al formato telefonico italiano.
+- Ultima attività completata: testati tutti i 13 referti dopo il filtro telefonico e verificata la regressione su `input/example.json`.
+- Prossima attività: decidere se supportare anche telefoni internazionali non italiani.
 
 ## Architettura rilevante
 
@@ -58,7 +58,8 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 - [x] Filtrati gli score semantici sotto 0.9: referto 1 da 42 a 17 entità, referto 2 da 30 a 12, mantenendo i nominativi ad alta confidenza.
 - [x] Suite completa passata: 16 test.
 - [x] Validato `input/example.json`: 13 entità, 2 telefoni, codice fiscale e identificativi clinici preservati.
-- [x] Testati 13 referti: 13/13 senza sovrapposizioni e span non validi; rilevati 8 telefoni a score 0.4, tutti codici o sequenze non conformi al formato italiano.
+- [x] Testati 13 referti: 13/13 senza sovrapposizioni e span non validi; rilevati e rimossi 8 telefoni a score 0.4 non conformi al formato italiano.
+- [x] Dopo il filtro: 17 telefoni sui 13 referti, 0 score bassi, 0 sovrapposizioni, 0 span invalidi.
 
 ## Output JSON
 
@@ -70,9 +71,9 @@ partendo dagli esempi Python presenti, incluso un transformer compatto.
 
 ## Prossimi passi
 
-1. Filtrare i `PHONE_NUMBER` a score 0.4 non conformi al formato italiano.
+1. Decidere se supportare telefoni internazionali non italiani come `123-456-7890`.
 2. Aggiungere fixture strutturali per i referti testati.
-3. Ripetere il test end-to-end e verificare la copertura dei telefoni reali.
+3. Ripetere il test end-to-end dopo la decisione sui formati internazionali.
 
 ## Comandi utili
 
@@ -108,6 +109,7 @@ uv run ruff format --check src/presidio-transformers.py
 - Output finali: `presidio-transformers_20260930T095005_185962Z.json` e `presidio-transformers_20260930T095031_363012Z.json`.
 - Output filtrati: `presidio-transformers_20260930T100512_717958Z.json` e `presidio-transformers_20260930T100543_524094Z.json`.
 - Output regressione: `presidio-transformers_20260930T111532_393385Z.json`.
+- Output dopo filtro telefoni: `presidio-transformers_20260930T113219_289440Z.json`.
 
 ## Assunzioni da verificare
 
